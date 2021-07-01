@@ -192,6 +192,11 @@ impl WebSocket {
             .await
     }
 
+    /// Transforms the websocket into the inner.
+    pub fn into_inner(self) -> WebSocketStream<hyper::upgrade::Upgraded> {
+        self.inner
+    }
+
     /// Gracefully close this websocket.
     pub async fn close(mut self) -> Result<(), crate::Error> {
         future::poll_fn(|cx| Pin::new(&mut self).poll_close(cx)).await
